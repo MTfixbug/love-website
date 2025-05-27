@@ -1,107 +1,168 @@
+console.log("Login.js loaded successfully");
+
 function checkAnswer() {
-    const answer = document.getElementById('answerInput').value.trim(); // Thêm .trim() để xóa khoảng trắng thừa
+    const answer = document.getElementById('answerInput').value.trim();
     const errorMessageElement = document.getElementById('errorMessage');
-    const loginBox = document.querySelector('.login-box'); // Đảm bảo class này có trong HTML của bạn
+    const loginBox = document.querySelector('.login-box');
 
-    console.log("Người dùng nhập: '" + answer + "'"); // Debug: xem giá trị nhập vào
+    console.log("Người dùng nhập: '" + answer + "'");
+    console.log("Current page:", window.location.href);
 
-    // Kiểm tra xem phần tử loginBox có tồn tại không để tránh lỗi
-    if (!loginBox) {
-        console.error("Lỗi nghiêm trọng: Không tìm thấy phần tử có class '.login-box' trong HTML!");
-        // Bạn có thể quyết định dừng ở đây nếu loginBox quá quan trọng
-    }
+    if (answer === "99") {
+        console.log("Đáp án đúng! Chuẩn bị chuyển trang...");
 
-    if (answer === "99") { // HOẶC "100" tùy theo ý bạn cho ngày kỷ niệm
-        console.log("Đáp án đúng! Chuẩn bị chuyển trang..."); // Debug
-
-        // Áp dụng hiệu ứng khi trả lời đúng
+        // Hiệu ứng khi đúng
         if (loginBox) {
             loginBox.style.boxShadow = "0 0 30px rgba(46, 213, 115, 0.5)";
+            loginBox.style.transform = "scale(1.02)";
         }
         
-        // Bắt đầu hiệu ứng fade-out cho body
-        // Việc chuyển trang có thể xảy ra trước khi hiệu ứng 0.8 giây này hoàn tất về mặt hình ảnh.
-        // Điều này thường chấp nhận được nếu ưu tiên chuyển trang ngay.
+        // Hiệu ứng fade-out
         document.body.style.transition = "opacity 0.8s ease";
         document.body.style.opacity = "0";
         
-        // Chuyển trang đến index.html
-        // Đây là cách tiêu chuẩn và thường đáng tin cậy nhất.
-        // Hãy chắc chắn rằng file 'index.html' nằm trong cùng thư mục với 'login.html'.
-        console.log("Đang cố gắng chuyển đến trang index.html..."); // Debug
-        
-        // Dòng lệnh chính để chuyển trang:
-        window.location.href = "index.html";
-
-        // --- Các giải pháp dự phòng (NẾU dòng trên vẫn không hoạt động) ---
-        // Những cách này thường không cần thiết nhưng có thể thử nếu 'window.location.href' gặp sự cố lạ.
-        // Thử từng cái một, và xóa/comment những cái khác.
-        // Đôi khi một độ trễ RẤT NHỎ có thể giúp trình duyệt xử lý hiệu ứng trước khi điều hướng.
-        /*
-        setTimeout(function() {
-            console.log("Thử chuyển trang (href) với độ trễ nhỏ...");
-            window.location.href = "index.html";
-        }, 50); // 50 mili giây
-        */
-
-        /*
-        setTimeout(function() {
-            console.log("Thử chuyển trang (assign) với độ trễ nhỏ...");
-            window.location.assign("index.html"); // Tương tự như href
-        }, 50);
-        */
-
-        /*
-        setTimeout(function() {
-            console.log("Thử chuyển trang (open _self) với độ trễ nhỏ...");
-            window.open("index.html", "_self"); // Mở trong tab hiện tại
-        }, 50);
-        */
+        // Chuyển đến main.html với timeout để hiệu ứng hoàn thành
+        setTimeout(() => {
+            console.log("Đang chuyển đến main.html...");
+            console.log("Attempting to redirect to:", "main.html");
+            
+            // Thử nhiều cách chuyển trang
+            try {
+                window.location.href = "main.html";
+            } catch (error) {
+                console.error("Error redirecting:", error);
+                // Backup method
+                window.location.replace("main.html");
+            }
+        }, 800);
 
     } else {
-        console.log("Đáp án sai."); // Debug
+        console.log("Đáp án sai:", answer);
+        
+        // Hiển thị thông báo lỗi
         if (errorMessageElement) {
-             errorMessageElement.textContent = "Sai rồi nè! Thử lại nha tình yêu ❤️";
+            errorMessageElement.textContent = "Sai rồi nè! Thử lại nha tình yêu ❤️";
+            errorMessageElement.style.animation = "shake 0.5s ease-in-out";
         }
        
+        // Xóa input và focus lại
         const answerInput = document.getElementById('answerInput');
         if (answerInput) {
-            answerInput.value = ""; // Xóa input sai
-            answerInput.focus();    // Focus lại vào input
+            answerInput.value = "";
+            answerInput.focus();
+            answerInput.style.borderColor = "#ff6b6b";
+            
+            // Reset border color after 2 seconds
+            setTimeout(() => {
+                answerInput.style.borderColor = "";
+            }, 2000);
         }
         
-        // Thêm hiệu ứng rung lắc khi sai
+        // Hiệu ứng rung lắc
         if (loginBox) {
             loginBox.classList.add('shake');
             setTimeout(() => {
                 loginBox.classList.remove('shake');
             }, 500);
-        } else {
-            // console.warn("Không tìm thấy '.login-box', không thể áp dụng hiệu ứng rung."); // Bỏ comment nếu cần debug
         }
     }
 }
 
-// Đảm bảo hàm này được gọi đúng cách, ví dụ qua thuộc tính onclick trên nút:
-// <button onclick="checkAnswer()">Vào Xem Kỷ Niệm</button>
-
-// Hoặc thêm trình nghe sự kiện cho nút và phím Enter trong JavaScript,
-// đặt ở cuối file HTML hoặc trong DOMContentLoaded:
-/*
-document.addEventListener('DOMContentLoaded', () => {
-    const loginButton = document.getElementById('yourLoginButtonId'); // Giả sử nút của bạn có ID
-    if (loginButton) {
-        loginButton.addEventListener('click', checkAnswer);
-    }
-
+// Event listeners
+document.addEventListener('DOMContentLoaded', function() {
+    console.log("DOM loaded, setting up event listeners");
+    
     const answerInput = document.getElementById('answerInput');
+    const loginButton = document.querySelector('.login-btn');
+    
     if (answerInput) {
+        console.log("Answer input found, setting up events");
+        
+        // Tự động focus vào ô input khi trang load
+        answerInput.focus();
+        
+        // Cho phép nhấn Enter để đăng nhập
         answerInput.addEventListener('keypress', function(event) {
             if (event.key === 'Enter') {
-                event.preventDefault(); // Ngăn hành động mặc định nếu input nằm trong form
+                event.preventDefault();
+                console.log("Enter key pressed, calling checkAnswer");
                 checkAnswer();
             }
         });
+        
+        // Clear error message when typing
+        answerInput.addEventListener('input', function() {
+            const errorMessageElement = document.getElementById('errorMessage');
+            if (errorMessageElement) {
+                errorMessageElement.textContent = "";
+            }
+        });
+    } else {
+        console.error("Answer input not found!");
     }
+    
+    // Event listener cho nút đăng nhập
+    if (loginButton) {
+        console.log("Login button found, setting up click event");
+        
+        loginButton.addEventListener('click', function(event) {
+            event.preventDefault();
+            console.log("Login button clicked, calling checkAnswer");
+            checkAnswer();
+        });
+        
+        // Add ripple effect
+        loginButton.addEventListener('click', function(e) {
+            const ripple = document.createElement('span');
+            ripple.classList.add('ripple-effect');
+            
+            const rect = this.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            
+            ripple.style.left = `${x}px`;
+            ripple.style.top = `${y}px`;
+            
+            this.appendChild(ripple);
+            
+            setTimeout(() => {
+                ripple.remove();
+            }, 600);
+        });
+    } else {
+        console.error("Login button not found!");
+    }
+    
+    // Add floating hearts effect
+    createFloatingHearts();
 });
-*/
+
+// Floating hearts effect
+function createFloatingHearts() {
+    setInterval(() => {
+        if (document.querySelectorAll('.floating-heart').length < 3) {
+            const heart = document.createElement('div');
+            heart.classList.add('floating-heart');
+            heart.innerHTML = '💖';
+            heart.style.left = Math.random() * 100 + '%';
+            heart.style.animationDuration = (Math.random() * 3 + 4) + 's';
+            
+            document.body.appendChild(heart);
+            
+            setTimeout(() => {
+                if (heart.parentNode) {
+                    heart.remove();
+                }
+            }, 7000);
+        }
+    }, 3000);
+}
+
+// Add some extra debugging
+window.addEventListener('beforeunload', function() {
+    console.log("Page is about to unload");
+});
+
+window.addEventListener('load', function() {
+    console.log("Page fully loaded");
+});
