@@ -3,120 +3,45 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>For Love</title>
-    <link rel="stylesheet" href="css/main-style.css">
+    <title>Đăng nhập</title>
+    <link rel="stylesheet" href="css/login-style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .debug-btn {
+            margin-top: 20px;
+            padding: 5px 10px;
+            background: #ccc;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+        }
+    </style>
 </head>
 <body>
-    <audio id="backgroundMusic" loop>
-        <source src="audio/LeDuong.mp3" type="audio/mpeg">
-        Trình duyệt của bạn không hỗ trợ phát nhạc.
-    </audio>
-
-    <button id="playPauseButton" class="music-control">
-        <i class="fas fa-play"></i>
-        <span>Phát Nhạc</span>
-    </button>
-
-    <div class="main-container">
-        <header>
-            <h1>Hành Trình 99 Ngày Yêu</h1>
-        </header>
-
-        <section class="slideshow-container">
-            <div class="slide fade">
-                <div class="slide-number">1 / 3</div>
-                <img src="images/1.jpeg" alt="Ngày đầu tiên">
-                <div class="slide-text">
-                    <h2>Ngày Đầu Tiên Mình Gặp Nhau</h2>
-                    <p>Nụ cười của em thật tươi, và khoảnh khắc ấy đã thay đổi tất cả...</p>
+    <div class="login-container">
+        <div class="login-box">
+            <h2>Chào tình yêu <i class="fas fa-heart heart-beat"></i></h2>
+            <div class="login-form">
+                <div class="input-group">
+                    <input type="text" id="answerInput" required>
+                    <span class="highlight"></span>
+                    <span class="bar"></span>
+                    <label>Nhập mật khẩu yêu thương</label>
                 </div>
+                <button onclick="checkAnswer()" class="login-btn">
+                    <span>Đăng nhập</span>
+                    <i class="fas fa-arrow-right"></i>
+                </button>
+                <p id="errorMessage" class="error-message"></p>
+                
+                <!-- Thêm nút test chuyển trang -->
+                <button class="debug-btn" onclick="window.location.href='index.html'">
+                    Test chuyển trang
+                </button>
             </div>
-
-            <div class="slide fade">
-                <div class="slide-number">2 / 3</div>
-                <img src="images/2.jpeg" alt="Kỷ niệm 2">
-                <div class="slide-text">
-                    <h2>Kỷ Niệm Thứ Hai</h2>
-                    <p>Những dòng tin nhắn đầu tiên, những buổi nói chuyện không dứt...</p>
-                </div>
-            </div>
-
-            <div class="slide fade">
-                <div class="slide-number">3 / 3</div>
-                <img src="images/3.jpeg" alt="Kỷ niệm 3">
-                <div class="slide-text">
-                    <h2>Kỷ Niệm Thứ Ba</h2>
-                    <p>Buổi hẹn hò đầu tiên, còn chút ngượng ngùng nhưng đầy ắp tiếng cười.</p>
-                </div>
-            </div>
-
-            <div class="slide fade">
-                <div class="slide-number">4 / 4</div>
-                <img src="images/4.jpeg" alt="Kỷ niệm 4">
-                <div class="slide-text">
-                    <h2>Kỷ Niệm Thứ Tư</h2>
-                    <p>Lần chụp Photobook đầu tiên có hai đứa mình .</p>
-                </div>
-            </div>
-
-            <div class="slide fade">
-                <div class="slide-number">5 / 5</div>
-                <img src="images/5.jpeg" alt="Kỷ niệm 5">
-                <div class="slide-text">
-                    <h2>Kỷ Niệm Thứ Năm</h2>
-                    <p>Lần thứ 2 anh về Đà Nẵng với em, hmmm cũng có thể gọi là lần thứ 2 đi date</p>
-                </div>
-            </div>
-            
-            <div class="slide fade">
-                <div class="slide-number">6 / 6</div>
-                <img src="images/6.jpeg" alt="Kỷ niệm 6">
-                <div class="slide-text">
-                    <h2>Kỷ Niệm Thứ Sáu</h2>
-                    <p>Mình không Ngại thì người nhìn mình hun nhau ngại</p>
-                </div>
-            </div>
-            
-            <div class="slide fade">
-                <div class="slide-number">7 / 7</div>
-                <img src="images/8.jpeg" alt="Kỷ niệm 7">
-                <div class="slide-text">
-                    <h2>Kỷ Niệm Thứ Bảy</h2>
-                    <p>Tấm này cưng quá trời</p>
-                </div>
-            </div>
-
-            <div class="slide fade">
-                <div class="slide-number">7 / 7</div>
-                <img src="images/9.jpeg" alt="Hiện Tại">
-                <div class="slide-text">
-                    <h2>Hiện Tại và sẽ còn tương lai</h2>
-                    <p>Hi vọng mình sẽ mãi yêu nhau như vậy đến suốt cuộc đời nha vợ 🥰</p>
-                </div>
-            </div>
-
-            <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
-            <a class="next" onclick="plusSlides(1)">&#10095;</a>
-        </section>
-
-
-        <section class="video-section">
-            <h2>Video Khoảnh Khắc Yêu Thương</h2>
-            <div class="video-wrapper">
-                <iframe src="https://drive.google.com/file/d/1QK-Zh9FsTYIEh-PlzZuKxvvifWTzL0zF/preview" 
-                    width="640" height="360" frameborder="0" 
-                    allow="autoplay; encrypted-media" allowfullscreen>
-                </iframe>
-            </div>
-        </section>
-
-
-        <footer>
-            <p>Chúc mừng 99 ngày chúng mình yêu nhau! ❤️</p>
-        </footer>
+        </div>
     </div>
-
-    <script src="js/script.js"></script>
+    <script src="js/login.js"></script>
 </body>
 </html>
